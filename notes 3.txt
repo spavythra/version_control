@@ -1,0 +1,635 @@
+WEB PAD: Jari Aalto http://bit.ly/jaalto-pad2
+Note: Use Firefox. Will be emptied. Copy content.
+---------------------------------
+TOP RIGHT [GEAR ICON / SETTINGS]
+[ ] Authorship colors OFF
+Font Type: RobotoMono
+Language: English
+--------------------------------
+
+Homepage: http://bit.ly/jaalto-home
+
+COURSE TUNI/TAMK 4A00FQ05-3001 21DFS Backend Development and Devops / 2022-01-27 week 04
+
+"1 " - for attendance
+
+Alam Shaiful
+1 Bui Huu Hoan
+Dang Khanh Chi
+1 Graham Roger
+Hassan Sayad
+Hassinen Ville
+1 Hauvala Juuso
+Kandel Deepti
+Kanel Kedar
+Le Minh Ngoc
+Manjang Kalifa
+Minasyan Susanna
+Nguyen My Hanh
+1Onashile Adebayo
+1 Privitera Fabio
+Rahman Sabbir
+Rajala Niko
+1 Rannikko Tanja
+1 Shanbhag Ankita
+1 Steinberg Yaniv
+Subramaniyam Pavithra
+1 Sulonen Suvi
+1 Suoniemi Niko
+1 Trogen Milla
+Vu Duc Cuong
+
+DIIFF AND PATCH
+
+diff --help
+patch --help
+
+man diff
+man path
+
+
+mkdir ~/tmp
+cd ~/tmp
+
+nano test.txt
+----------------------- BEG
+1
+2
+
+a
+b
+c
+---------------------- END C-o (Write out) C-x (Exit
+
+cp test.txt test2.txt
+
+nano test2.txt
+----------------------- BEG
+1
+2
+
+aa
+b
+c
+---------------------- END C-o (Write out) C-x (Exit
+
+
+
+diff test.txt test2.txt
+
+diff test.txt test2.txt
+5c5
+< a
+---
+> aa
+
+
+diff -u test.txt test2.txt
+diff --unified test.txt test2.txt
+
+# @@ = hunk
+--- test.txt    2022-01-27 09:13:54.543704100 +0200
++++ test2.txt   2022-01-27 09:15:00.152574300 +0200
+@@ -2,7 +2,7 @@
+ 2
+
+
+-a
++aa
+ b
+ c
+
+nano test2.txt
+----------------------- BEG
+1
+2
+
+aa
+b
+c
+
+3
+4
+---------------------- END C-o (Write out) C-x (Exit
+
+diff -u test.txt test2.txt
+
+--- test.txt    2022-01-27 09:13:54.543704100 +0200
++++ test2.txt   2022-01-27 09:19:32.862915200 +0200
+@@ -2,7 +2,9 @@
+ 2
+
+
+-a
++aa
+ b
+ c
+
++3
++4
+
+---------------------------
+code1.sh
+
+function ()
+{
+    var=123   
+    print()
+}
+
+=>
+code2.sh
+
+   // Comment added
+function ()
+{
+    var = 123   
+    
+    print()   // command
+}
+
+
+EXERCISE: What diff(1) command ignores
+changes in comments and whitespace for the 
+files code1.sh and code2.sh
+
+<copy/paste answer here>
+
+-I, --ignore-matching-lines=RE
+              ignore changes where all lines match RE
+
+diff -u -I = "//" code1.sh code2.sh                     # Error
+diff -u --ignore-matching-lines=// code1.sh code2.sh    # ...not yet complete
+diff -u -wB code1.sh code2.sh                           # ...almost
+diff -u --ignore-matching-lines=// -w code1.sh code2.sh # ...almost
+diff -u -B -w --ignore-matching-lines=// code1.sh code2.sh
+diff --ignore-matching-lines=// -u -B -w code1.sh code2.sh
+
+# The solutions
+diff -uBw --ignore-matching-lines=// code1.sh code2.sh
+diff -uBw -I "//" code1.sh code2.sh
+diff -uBwI "//" code1.sh code2.sh
+
+diff -IuBw "//" code1.sh code2.sh   # Moving -I option, does not work!
+
+
+diff -IuBw "^[ \t]*//" code1.sh code2.sh
+
+
+EXERCISE; What option are available in diff(1)
+to ignore whitespace difference?
+
+<copy/paste answer here>
+
+
+
+
+diff -uw
+-w, --ignore-all-space
+              ignore all white space
+
+diff - uwb
+
+ -b, --ignore-space-change
+              ignore changes in the amount of white space
+              
+  --suppress-blank-empty
+
+       suppress space or tab before empty output lines
+
+
+
+    -B, --ignore-blank-lines
+              ignore changes where lines are all blank
+
+     -E, --ignore-tab-expansion
+
+                  ignore changes due to tab expansion
+
+
+     -I, --ignore-matching-lines=RE
+
+                  ignore changes where all lines match RE
+
+
+
+
+
+
+COMMAND LINe PROGRAMS, OPTION ORDER
+
+
+<command> [options] [arguments]
+
+<commnd> -a -b -c
+<commnd> -abc
+<commnd> -cba
+
+# options with arguments
+
+  -f, --file=FILE
+  -I, --ignore=STRING
+
+<commnd> -a -b -c --file=FILE --ignore=STRING
+<commnd> --file=FILE -a --ignore=STRING -bc  
+
+<commnd> -a -b -c -f FILE -I STRING
+<commnd> -f FILE -a -I STRING -bc  
+<commnd> -abc -f FILE -I STRING
+<commnd> -abcf FILE -I STRING  
+<commnd> -abcfI FILE STRING       # an error
+
+
+REGULAR EXPRESSIONS AS A LANGUGEAGE FOR MATCHING INFORMATION
+
+# Book with approx. 400 pages
+Mastering regular expressions by O'Reilly
+
+ATOMS
+
+\<character>  character, literally  "\." => "."
+.             character, anything
+[a-z]         character, subset
+
+QUANTIFIERS (repeat)
+
+?         0, 1
+*         0..N
++         1..N
+
+SETS, GROUPS
+
+()       Group
+
+ANCHORS
+
+^        beginning
+$        end
+
+AN EXAMPLE, MATCHING NUMBERS IN LiNE
+
+See grep(1)
+
+
+"   text text text text"
+"   text text text 12"
+"   text 123  text text"
+
+/RE/
+
+[0-9]?
+[0-9]*
+[0-9]+   # Correct, match any number of times: 1..N
+
+MATCHING DECIMAL NUMBERS
+
+  N.M
+  test line 123. Text sentence
+  123.567
+  123567
+  -123.567
+  +123.567
+  
+  123-123.567-123123
+  
+<write answer here>
+
+[0-9]+ \.? + [0-9]*   # Not quite, all SPC is significant
+[0-9]+\.?[0-9]*
+
+^[0-9]+(\.[0-9]+)?$
+-?[0-9]+(\.[0-9]+)?
+
+GREP COMMAND
+
+  code1.txt
+  code2.txt
+  test.txt
+  program1.txt
+  program2.txt
+  sheet1.xlsx
+  sheet2.xlsx
+  
+# grep = simple
+# egrep = extended
+  
+ls | egrep '[0-9]'
+
+
+DIFFING ANd PATCHING FILES
+
+ diff -u code1.sh code2.sh > code.patch
+ 
+ cat  code.patch
+ 
+ cp code1.sh code.sh
+ 
+ # To patch a file, run patch(1)
+ 
+ patch code.sh < code.patch
+ 
+ # After patch, these are the same
+ diff code.sh code2.sh
+ 
+HOW TO MAKE CORRECTIONS
+
+  1. Copy original file under name FILE.orig
+  2. Make changes
+  3. Make a patch; run the diff(1) command
+  4. Send the patch
+  
+HOW TO RECEIVE PATCHES
+
+  1. Save te patch
+  2. Review it
+  3. Apply chnages; using patch(1) comand
+  
+AN EXAMPLE
+
+  -------------------- README.txt
+  DESCRIPION
+  
+  <text>
+  
+  AUTHORS
+  
+  <email addresses>
+  
+  CONTACT
+  
+  <bug report address>
+  
+  HOMEPAGE
+  
+  http://example.com
+  
+# 1. Make a copy
+
+cp README.txt README.txt.orig
+
+nano README.txt
+
+# 2. Make a patch
+
+diff -u README.txt.orig README.txt > README.txt.patch
+
+# 3. Check and send
+
+cat README.txt.patch
+
+HOW ABOUT PROJECT PATCHES
+
+  <project>
+  | README.txt       # correct
+  |
+  +- doc/
+  |
+  +- src/
+     code1.sh       # correct
+     code2.sh
+     
+STEPS
+
+ 1. Make a copy of the whole project
+ 
+    # Recursive option
+    cp -r project project.orig
+ 
+ 2. Make changes in <project>
+ 
+ 3. Make patch; take difference between directoris
+ 
+    # Recursive option
+    diff -u -r project.orig project > project.patch
+ 
+ 4. Send the patch
+ 
+BREAK: 11:00
+
+VERSION CONTROL / GIT
+
+   diff & patch
+
+   <repository>
+   diff         - commit
+   diff         - commit
+   diff         ....
+   diff
+
+   <file>
+   <file> +1
+   <file> +2
+   ...
+   
+DIFFERENT PROJECTS / SPLIT THE VERSION CONTROL INTO PIECES
+
+# See Git manual: modules
+
+<project>
+|
++- www
++- videos
++- src
+
+<project> + www
+<project> + videos
+<project> + src
+
+<project>
+|
++- <repository www>
++- <repository videos>
++- <repository src>
+
+mkdir <project>
+cd mkdir 
+git clone <URL project-www> www
+git clone <URL project-videos> vidoes
+git clone <URL project-src> src
+
+<project>
+|
++- www <repository>
++- videos <repository>
++- src <repository>
+
+WEB PAGE DEVELOPER
+
+git clone <URL project-www> www
+
+---------------------------------------- STEP 1
+
+<project>
+| README.txt
++- doc
+|  manual.pdf
++- src
+   code.sh
+   code.o
+
+cd ~/tmp
+
+mkdir project1
+cd project1
+
+mkdir src doc
+touch README.txt doc/manual.pdf src/code.sh
+
+tree
+
+HOW TO IMPORT PROJECT INTO VERSION CONTROL
+
+1. Initialize version control
+
+   git init
+   
+   <project>
+   |
+   + .git/      <repository>
+ 
+2. Add all files
+
+   git add .      # (.) current directory
+   
+   git status
+   
+3. commit
+
+   export EDITOR=nano
+   
+   # Send files to repository
+   git commit              # vim(1)  =>   :q
+   
+Import whole project.
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# You are in a sparse checkout with 100% of tracked files present.
+#
+#
+# Initial commit
+#
+# Changes to be committed:
+#   new file:   README.txt
+#   new file:   doc/manual.pdf
+#   new file:   src/code.sh
+#
+
+REPOSITORY
+    
+   <repository>
+   diff         - commit a77006e
+
+   git log
+   
+commit a77006e49348445d5ab44c1b4d1a4d7ea15566d6 (HEAD -> master)
+Author: Jari Aalto <jari.aalto@cante.net>
+Date:   Thu Jan 27 11:22:49 2022 +0200
+
+    Import whole project.
+
+------------------------------------- STEP 2
+
+<project>
+| README.txt
++- doc
+|  manual.pdf
++- src
+   code.sh
+   code.o
+
+EXERCISE: Cnange README.txt and commit
+
+nano README.txt
+---------------------------
+DESCRIPTION
+
+Lore lipsum
+
+HOMEPAGE
+
+http://example.com
+
+AUTHOS
+
+<jdoe@example.com>
+---------------------------
+
+git status
+
+git add README.txt
+git commit
+
+
+# Write good commit messages
+
+Add sections DESCRIPTION, HOMEPAGE and AUTHORS.
+|
+Verb, actve voice  (NOT: "Added"
+Change
+Modify
+Add
+Update
+"Fix"  - Only used for "Fix bug #1234"
+
+git log
+
+commit 20a0612cb537805aac655ea0b0994747ebd07154 (HEAD -> master)
+Author: Jari Aalto <jari.aalto@cante.net>
+Date:   Thu Jan 27 11:29:45 2022 +0200
+
+    Add sections DESCRIPTION, HOMEPAGE and AUTHORS.
+
+commit a77006e49348445d5ab44c1b4d1a4d7ea15566d6
+Author: Jari Aalto <jari.aalto@cante.net>
+Date:   Thu Jan 27 11:22:49 2022 +0200
+
+    Import whole project.
+
+MANUAL PAGES OF GIT
+
+  git <subcommand> [options] [arguments]
+  git commit
+  git add [option] <file>
+
+  man git-<subcommand>
+  
+  man git-commit
+  man git-add
+  man git-log
+  
+  git log README.txt
+  git log src/code.sh
+  
+IGNORING FILES
+
+
+<project>
+| .gitignore
+| README.txt
++- doc
+|  manual.pdf
++- src
+   code.sh
+   code.o                        # must be ignores
+
+nano .gitignore
+-------------------------
+# compiled object files
+*.o
+
+*.orig
+
+# Python compiled files
+*.pyc
+*.tmp
+*.class
+src/*.o
+------------------------
+
+git add .gitignore
+git commit
+  Add file .gitignore
+  
+------------------------------------------------
